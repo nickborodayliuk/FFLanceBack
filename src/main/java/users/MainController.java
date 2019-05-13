@@ -79,6 +79,28 @@ public class MainController {
 
         return (List)passwords;
     }
+    @GetMapping(path="/nameforemail")
+    public @ResponseBody Iterable<User> getNameForEmaile (@RequestParam String email) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByEmail(email);
+        ArrayList<String> names = new ArrayList<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            names.add(users.get(i).getName());
+        }
+
+        return (List)names;
+    }
+    @GetMapping(path="/phoneforemail")
+    public @ResponseBody Iterable<User> getPhoneForEmaile (@RequestParam String email) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByEmail(email);
+        ArrayList<String> phones = new ArrayList<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            phones.add(users.get(i).getPhone());
+        }
+
+        return (List)phones;
+    }
 
 
 }
