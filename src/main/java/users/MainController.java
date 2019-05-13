@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import users.User;
 import users.UserRepository;
 
+import java.util.*;
+
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after users.Application path)
@@ -19,13 +21,14 @@ public class MainController {
 
     @GetMapping(path="/add") // Map ONLY GET Requests
     public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email) {
+            , @RequestParam String email, @RequestParam String password) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         User n = new User();
         n.setName(name);
         n.setEmail(email);
+        n.setPassword(password);
         userRepository.save(n);
         return "Saved";
     }
@@ -35,4 +38,24 @@ public class MainController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+    @GetMapping(path="/user")
+    public @ResponseBody Iterable<User> getUser(@RequestParam String name) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByName(name);
+        return users;
+    }
+    @GetMapping(path="/email")
+    public @ResponseBody Iterable<User> getEmailUser(@RequestParam String name) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByName(name);
+        ArrayList<String> emeils = new ArrayList<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            emeils.add(users.get(i).getEmail());
+        }
+
+        return (List)emeils;
+    }
+
+
 }
