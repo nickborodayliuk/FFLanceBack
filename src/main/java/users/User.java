@@ -17,6 +17,19 @@ public class User {
 
     private String password;
 
+    private String phone;
+
+
+    public User(String name, String email, String password, String phone){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
+    public User(){
+
+    }
+
     public Integer getId() {
         return id;
     }
@@ -27,6 +40,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setName(String name) {

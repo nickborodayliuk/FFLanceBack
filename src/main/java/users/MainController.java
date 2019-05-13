@@ -21,13 +21,14 @@ public class MainController {
 
     @GetMapping(path="/add") // Map ONLY GET Requests
     public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email, @RequestParam String password) {
+            , @RequestParam String email,@RequestParam String phone, @RequestParam String password) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         User n = new User();
         n.setName(name);
         n.setEmail(email);
+        n.setPhone(phone);
         n.setPassword(password);
         userRepository.save(n);
         return "Saved";
@@ -55,6 +56,28 @@ public class MainController {
         }
 
         return (List)emeils;
+    }
+    @GetMapping(path="/passforemail")
+    public @ResponseBody Iterable<User> getPasswordUser(@RequestParam String email) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByEmail(email);
+        ArrayList<String> passwords = new ArrayList<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            passwords.add(users.get(i).getPassword());
+        }
+
+        return (List)passwords;
+    }
+    @GetMapping(path="/passforphone")
+    public @ResponseBody Iterable<User> getPasswordUserPhone (@RequestParam String phone) {
+        // This returns a JSON or XML with the users
+        List<User> users = userRepository.findByPhone(phone);
+        ArrayList<String> passwords = new ArrayList<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            passwords.add(users.get(i).getPassword());
+        }
+
+        return (List)passwords;
     }
 
 
