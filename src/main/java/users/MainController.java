@@ -109,11 +109,45 @@ public class MainController {
     public @ResponseBody Iterable<Orderf> getAllOrder(){
         return orderfRepository.findAll();
     }
-    
+
     @DeleteMapping(path = "delorder")
     public @ResponseBody void delOrderf(@RequestParam Integer id){
         orderfRepository.deleteById(id);
     }
+    @GetMapping(path="/sizeorder")
+    public @ResponseBody Long getSizeOrder(){
+        return orderfRepository.count();
+    }
+    @GetMapping(path = "/orderbyid")
+    public @ResponseBody Iterable<Orderf> getOrderById(@RequestParam Integer id){
+        return orderfRepository.findAllById(Collections.singleton(id));
+    }
+    @GetMapping(path = "/ordernamebyid")
+    public @ResponseBody String getOrderNameById(@RequestParam Integer id){
+        Optional<Orderf> orderfs = orderfRepository.findById(id);
+        String name = orderfs.get().getNameOrder();
+
+
+        return name;
+    }
+    @GetMapping(path = "/ordertextbyid")
+    public @ResponseBody String getOrderTextById(@RequestParam Integer id){
+        Optional<Orderf> orderfs = orderfRepository.findById(id);
+        String text = orderfs.get().getTextOrder();
+
+
+        return text;
+    }
+    @GetMapping(path = "/orderprisebyid")
+    public @ResponseBody String getOrderPriseById(@RequestParam Integer id){
+        Optional<Orderf> orderfs = orderfRepository.findById(id);
+        String prise = orderfs.get().getPriseOrder();
+
+
+        return prise;
+    }
+    
+
 
 
 
